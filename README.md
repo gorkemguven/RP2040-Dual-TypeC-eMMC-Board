@@ -9,11 +9,11 @@ Kart; çift USB Type-C mimarisi, donanımsal güç telemetrisi (çift INA226 ak�
 ## 📌 Öne Çıkan Özellikler
 
 * **Çift Çekirdekli İşlem Gücü:** Raspberry Pi RP2040 (Çift ARM Cortex-M0+ @ 133 MHz, 264 KB dahili SRAM).
-* **Yüksek Hızlı Depolama (eMMC):** Micron BGA-153 paket yüksek hızlı eMMC bellek.
+* **Yüksek Hızlı Depolama (eMMC):** Micron BGA-153 paket yüksek hızlı eMMC bellek modülü.
 * **Yüksek Hızlı USB Köprüsü:** Microchip USB2244 High-Speed USB 2.0 SD/eMMC kontrolcüsü (480 Mbps).
 * **Boot Flash Belleği:** 128 Mb (16 MB) Winbond W25Q128JVSIC QSPI Flash[cite: 3].
 * **Çift USB Type-C Portu:**
-  * *Port 1 (Depolama):* USB2244 üzerinden doğrudan eMMC'ye yüksek hızlı USB 2.0 (480 Mbps) doğrudan erişim.
+  * *Port 1 (Depolama):* USB2244 üzerinden doğrudan eMMC'ye yüksek hızlı USB 2.0 (480 Mbps) erişim.
   * *Port 2 (MCU / Telemetri):* RP2040 Full-Speed USB arayüzü (veri kaydı, programlama, seri haberleşme).
 * **Donanımsal Güç ve Sıcaklık Telemetrisi:**
   * 2x **TI INA226** I2C güç/gerilim/akım izleme entegresi (2 mΩ 4-terminalli Kelvin şönt algılama)[cite: 7, 8].
@@ -26,27 +26,27 @@ Kart; çift USB Type-C mimarisi, donanımsal güç telemetrisi (çift INA226 ak�
 
 ## 📐 Donanım Mimarisi ve Yüksek Hızlı Sinyal Bütünlüğü
 
-### 1. USB2244 – eMMC (BGA-153) 8-Bit Yüksek Hızlı Veri Yolu
-USB2244 denetleyicisi ile eMMC arasındaki 8-bit paralel veri yolu (MMC/eMMC standardı), yüksek frekanslı sinyal geçişlerinde veri kaymasını (skew) ve faz farklarını önlemek amacıyla sıkı empedans ve uzunluk toleranslarıyla yönlendirilmiştir:
-* **Referans Saat:** `MMC_CLK` hattı referans alınarak tüm kontrol (`CMD`) ve veri (`DAT0`–`DAT7`) hatları eşlenmiştir.
-* **Hat Empedansı:** Katman 2'deki kesintisiz GND referansı üzerinden 50 Ω tek uçlu (single-ended) mikroşerit hat geometrisi.
-* **Tolerans Kriteri:** Saat ve veri hatları arasındaki gecikme farkı (skew) < 50 ps (~±1.0 mm) hedeflenmiştir.
+### 1. USB2244 – eMMC (BGA-153) 8-Bit Yüksek Hızlı Veri Yolu (Zero-Skew Matching)
+USB2244 ile eMMC arasındaki 8-bit paralel veri yolu (MMC standardı), yüksek frekanslı çalışma modlarında saat ve veri gecikmelerini (skew) sıfırlamak için **tam 35.66 mm** boyuna meander teknikleriyle kusursuz şekilde eşitlenmiştir:
+* **Tüm Hatların Uzunluğu:** Tam olarak **35.66 mm**
+* **Maksimum Skew / Sapma:** **0.00 mm (0.00 ps)**
+* **Hat Empedansı:** Katman 2 kesintisiz GND referansı üzerinden 50 Ω mikroşerit geometri.
 
-| Sinyal Adı | Pin Adı | Rotalama Türü | Hedef Empedans | Via Sayısı | Uzunluk Eşleme Toleransı |
+| Sinyal Adı | Pin Adı | Rotalama Türü | Empedans | Net Hat Uzunluğu | Skew (Fark) |
 | :--- | :--- | :--- | :---: | :---: | :---: |
-| **`MMC_CLK`** | Clock (Saat) | Mikroşerit / GND Referanslı | 50 Ω | Eşit | Referans Hat |
-| **`MMC_CMD`** | Command / Response | Çift Yönlü Kontrol | 50 Ω | Eşit | ±1.0 mm |
-| **`MMCDA0`** | Veri Biti 0 | Yüksek Hızlı Veri | 50 Ω | Eşit | ±1.0 mm |
-| **`MMCDA1`** | Veri Biti 1 | Yüksek Hızlı Veri | 50 Ω | Eşit | ±1.0 mm |
-| **`MMCDA2`** | Veri Biti 2 | Yüksek Hızlı Veri | 50 Ω | Eşit | ±1.0 mm |
-| **`MMCDA3`** | Veri Biti 3 | Yüksek Hızlı Veri | 50 Ω | Eşit | ±1.0 mm |
-| **`MMCDA4`** | Veri Biti 4 | Yüksek Hızlı Veri | 50 Ω | Eşit | ±1.0 mm |
-| **`MMCDA5`** | Veri Biti 5 | Yüksek Hızlı Veri | 50 Ω | Eşit | ±1.0 mm |
-| **`MMCDA6`** | Veri Biti 6 | Yüksek Hızlı Veri | 50 Ω | Eşit | ±1.0 mm |
-| **`MMCDA7`** | Veri Biti 7 | Yüksek Hızlı Veri | 50 Ω | Eşit | ±1.0 mm |
-| **`MMC_RST_N`** | Hardware Reset | Filtrelenmiş Kontrol | 50 Ω | - | Asenkron |
+| **`MMC_CLK`** | Clock (Saat) | GND Referanslı Mikroşerit | 50 Ω | **35.66 mm** | Referans |
+| **`MMC_CMD`** | Command / Response | Çift Yönlü Kontrol | 50 Ω | **35.66 mm** | **0.00 mm** |
+| **`MMCDA0`** | Data Bit 0 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
+| **`MMCDA1`** | Data Bit 1 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
+| **`MMCDA2`** | Data Bit 2 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
+| **`MMCDA3`** | Data Bit 3 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
+| **`MMCDA4`** | Data Bit 4 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
+| **`MMCDA5`** | Data Bit 5 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
+| **`MMCDA6`** | Data Bit 6 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
+| **`MMCDA7`** | Data Bit 7 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
+| **`MMC_RST_N`** | Hardware Reset | Filtrelenmiş Kontrol | 50 Ω | Bağımsız | Asenkron |
 
-*(Not: Veri yollarının tamamında stubsız routing yapılmış, BGA çıkışlarında dönüş akımı sürekliliği için bitişik GND viaları yerleştirilmiştir).*
+*(Not: Bu 10 hattın tamamında sıfır kör hat (stub-free) prensibi uygulanmış ve BGA çıkışlarında dönüş akımının bütünlüğü korunmuştur).*
 
 ### 2. QSPI Flash Yönlendirme ve Gecikme Eşleme (Length Matching)
 Flash bellek yolu, 133 MHz saat hızında okuma/yazma kararlılığını garanti altına almak için 50 Ω kontrollü empedans ve katı boy eşleme kurallarıyla yönlendirilmiştir:
@@ -100,7 +100,7 @@ Harici çevre birimleri ve geliştirme modülleri için dışarı çıkarılmı�
 | **11** | `GPIO15` | Giriş/Çıkış | 43.87 mm (2 via) | Genel amaçlı GPIO / Kesme |
 | **12** | `GND` | Güç | Çift via ile ana GND katmanına bağlı | Ortak sistem toprağı |
 
-*(Not: SPI veri yolu hatları arasındaki maksimum skew yalnızca 0.65 mm'dir; bu sayede yüksek hızlı SPI ekranlar veya harici SD modülleriyle sorunsuz çalışır).*
+*(Not: SPI veri yolu hatları arasındaki maksimum skew yalnızca 0.65 mm'dir; bu sayede yüksek hızlı SPI ekranlar veya harici modüllerle sorunsuz çalışır).*
 
 ### 2. Programlama ve Hata Ayıklama (Debug)
 * **SWD Portu (`SWCLK`, `SWD`, `GND`):** Canlı hata ayıklama (step-by-step breakpoint debug) ve doğrudan bellek programlama arayüzüdür.
