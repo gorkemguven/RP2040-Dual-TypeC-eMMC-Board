@@ -78,7 +78,7 @@ Harici çevre birimleri ve geliştirme kartları için dışarı çıkarılmış
 | **11** | `GPIO15` | Giriş/Çıkış | $43.87\text{ mm}$ (2 via) | Genel amaçlı GPIO / Kesme |
 | **12** | `GND` | Güç | Çift via ile ana GND katmanına bağlı | Ortak sistem toprağı |
 
-*(Not: SPI veri yolu hatları arasındaki maksimum skew yalnızca $0.65\text{ mm}$'dir; bu sayede yüksek hızlı SPI ekranlar veya harici SD modülleriyle sorunsuz çalışır).*
+
 
 ### 2. Programlama ve Hata Ayıklama (Debug)
 * **SWD Portu (`SWCLK`, `SWD`, `GND`):** Canlı hata ayıklama (step-by-step breakpoint debug) ve doğrudan bellek programlama arayüzüdür.
