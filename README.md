@@ -35,12 +35,12 @@ USB2244 ile eMMC arasındaki 8-bit paralel veri yolu (MMC standardı), yüksek f
 | Sinyal Adı | Pin Adı | Rotalama Türü | Empedans | Net Hat Uzunluğu | Skew (Fark) |
 | :--- | :--- | :--- | :---: | :---: | :---: |
 | **`MMC_CLK`** | Clock (Saat) | GND Referanslı Mikroşerit | 50 Ω | **35.66 mm** | Referans |
-| **`MMC_CMD`** | Command / Response | Çift Yönlü Kontrol | 50 Ω | **35.66 mm** | **0.00 mm** |
+| **`MMC_CMD`** | Command / Response | Çift Yönlü Kontrol | 50 Ω | **33.44 mm** | **2.22 mm** |
 | **`MMCDA0`** | Data Bit 0 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
 | **`MMCDA1`** | Data Bit 1 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
 | **`MMCDA2`** | Data Bit 2 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
 | **`MMCDA3`** | Data Bit 3 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
-| **`MMCDA4`** | Data Bit 4 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
+| **`MMCDA4`** | Data Bit 4 | Yüksek Hızlı Veri | 50 Ω | **35.56 mm** | **0.10 mm** |
 | **`MMCDA5`** | Data Bit 5 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
 | **`MMCDA6`** | Data Bit 6 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
 | **`MMCDA7`** | Data Bit 7 | Yüksek Hızlı Veri | 50 Ω | **35.66 mm** | **0.00 mm** |
